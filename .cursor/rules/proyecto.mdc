@@ -1,0 +1,28 @@
+---
+description: Índice de Tandil Tech Week. Una feature por sesión; leer solo su carpeta en specs/.
+alwaysApply: true
+---
+
+# Tandil Tech Week
+
+Sitio del evento (14 y 15 oct 2026). Next.js (App Router) en Vercel, React Three Fiber solo en cliente, Tailwind CSS, contenido editorial en `content/`, zona `America/Argentina/Buenos_Aires`.
+
+## Cómo trabajar
+
+- Una sesión = una feature. No arranques la siguiente ni abras su carpeta.
+- Antes de codear, leé solo `specs/<feature>/`. No leas el resto de `specs/`.
+- Abrí `specs/00-contexto.md` únicamente si la spec de esa feature lo cita.
+- Si falta copy, un nombre, un sponsor o una hora, proponé el texto en el chat y esperá el ok antes de escribirlo en el repo.
+- Respuestas en español. Textos de interfaz en español. Identificadores de código en inglés.
+
+## Dónde está cada feature
+
+| Feature | Carpeta |
+| --- | --- |
+| Red de conexiones | `specs/01-red-de-conexiones/` |
+| Speakers | `specs/02-speakers/` |
+| Temporizador | `specs/03-temporizador/` |
+| Sponsors | `specs/04-sponsors/` |
+| Formulario mesa | `specs/05-formulario-mesa/` |
+| Efectos | `specs/06-efectos/` |
+| Streaming | `specs/07-streaming/` |

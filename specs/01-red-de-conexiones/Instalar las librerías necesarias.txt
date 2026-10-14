@@ -1,0 +1,188 @@
+Instalar las librerías necesarias
+npm install three @react-three/fiber @react-three/drei d3-force-3d
+
+
+@react-three/fiber: El motor base que conecta React con WebGL.
+
+@react-three/drei: Utilidades (controles de cámara, líneas, y el componente <Html> para las tarjetas de hover).
+
+d3-force-3d: El motor de físicas. Calcula las coordenadas X, Y, Z de cada nodo para que se repelan y las aristas los unan.
+
+
+
+Paso 2: Preparar la lógica de Nodos y Aristas
+
+Creá un archivo utils/generarGrafo.ts:
+
+import { PersonaPublica } from '../content/tracks';
+
+export function prepararDatosGrafo(personas: PersonaPublica[]) {
+  // 1. Crear el Nodo Central
+  const nodoCentral = { id: 'central', isCentral: true, nombre: 'Tandil Tech Week' };
+  
+  // 2. Mapear las personas a nodos
+  const nodos: any[] = [nodoCentral, ...personas.map(p => ({ ...p, isCentral: false }))];
+  const aristas: any[] = [];
+
+  // 3. Generar las conexiones (aristas)
+  personas.forEach((p1, i) => {
+    let tieneConexion = false;
+
+    personas.slice(i + 1).forEach(p2 => {
+      // Regla: Se conectan si comparten compañía o track
+      if (p1.compania === p2.compania || p1.track === p2.track) {
+        aristas.push({ source: p1.id, target: p2.id });
+        tieneConexion = true;
+      }
+    });
+
+    // Regla: Si queda suelto, se une al centro
+    if (!tieneConexion) {
+      aristas.push({ source: p1.id, target: 'central' });
+    }
+  });
+
+  return { nodos, aristas };
+}
+
+Paso 3: Componente del Nodo Individual
+
+Creá components/Nodo.tsx:	
+
+import { useState } from 'react';
+import { Html } from '@react-three/drei';
+import { trackColors } from '../content/tracks';
+
+export default function Nodo({ nodo }: { nodo: any }) {
+  const [hovered, setHovered] = useState(false);
+
+  // Si es el nodo central, lo hacemos más grande y blanco
+  const esCentral = nodo.isCentral;
+  const color = esCentral ? '#FFFFFF' : (trackColors[nodo.track] || trackColors.default);
+  const tamaño = esCentral ? 2 : 1;
+
+  const handleClick = () => {
+    if (!esCentral && nodo.linkedinUrl) {
+      window.open(nodo.linkedinUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  return (
+    <mesh 
+      position={[nodo.x || 0, nodo.y || 0, nodo.z || 0]} 
+      onClick={handleClick}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); }}
+      onPointerOut={() => setHovered(false)}
+      // Cambiar el cursor a 'pointer' en hover
+      onPointerEnter={() => document.body.style.cursor = 'pointer'}
+      onPointerLeave={() => document.body.style.cursor = 'auto'}
+    >
+      <sphereGeometry args={[tamaño, 32, 32]} />
+      <meshStandardMaterial color={color} roughness={0.3} metalness={0.1} />
+
+      {/* Tarjeta UI HTML que sigue al nodo en 3D */}
+      {(hovered || esCentral) && (
+        <Html distanceFactor={15} center zIndexRange={[100, 0]}>
+          {esCentral ? (
+            <div className="text-white font-bold text-xl drop-shadow-lg whitespace-nowrap pointer-events-none">
+              {nodo.nombre}
+            </div>
+          ) : (
+            <div className="bg-neutral-900 border border-neutral-700 text-white p-3 rounded-lg shadow-xl w-48 text-sm pointer-events-none">
+              <p className="font-bold truncate">{nodo.nombre}</p>
+              <p className="text-gray-400 truncate">{nodo.rol}</p>
+              <p className="text-blue-400 text-xs mt-1 truncate">{nodo.compania}</p>
+            </div>
+          )}
+        </Html>
+      )}
+    </mesh>
+  );
+}
+
+
+Paso 4: Ensamblar la Escena 3D con las Físicas
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Line } from '@react-three/drei';
+// Importamos la física
+import { forceSimulation, forceLink, forceManyBody, forceCenter } from 'd3-force-3d';
+import { prepararDatosGrafo } from '../utils/generarGrafo';
+import Nodo from './Nodo';
+
+export default function Grafo3D({ personas }: { personas: any[] }) {
+  const [datosGrafo, setDatosGrafo] = useState<{ nodos: any[], aristas: any[] }>({ nodos: [], aristas: [] });
+
+  useEffect(() => {
+    if (personas.length === 0) return;
+
+    const { nodos, aristas } = prepararDatosGrafo(personas);
+
+    // Configurar la simulación de físicas
+    const simulacion = forceSimulation(nodos)
+      .numDimensions(3) // Físicas en 3D
+      .force('link', forceLink(aristas).id((d: any) => d.id).distance(15)) // Las aristas los acercan a distancia 15
+      .force('charge', forceManyBody().strength(-30)) // Se repelen entre sí (fuerza negativa)
+      .force('center', forceCenter(0, 0, 0)); // Se centran en el origen
+
+    // Escuchamos el evento 'tick' (cada vez que se mueven un poco)
+    simulacion.on('tick', () => {
+      // Actualizamos el estado para redibujar en las nuevas posiciones
+      setDatosGrafo({ nodos: [...nodos], aristas: [...aristas] });
+    });
+
+    return () => {
+      simulacion.stop(); // Limpieza al desmontar
+    };
+  }, [personas]);
+
+  return (
+    <Canvas camera={{ position: [0, 0, 40], fov: 60 }} dpr={[1, 1.5]}>
+      {/* Iluminación básica */}
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[10, 10, 10]} intensity={1} />
+      
+      {/* Dibujar Aristas (Líneas) */}
+      {datosGrafo.aristas.map((arista, idx) => {
+        // d3-force reemplaza el ID del source/target por la referencia completa al objeto nodo
+        const source = arista.source;
+        const target = arista.target;
+        
+        // Evitamos errores en los primeros ticks si no tienen coordenadas aún
+        if (source.x === undefined || target.x === undefined) return null;
+
+        return (
+          <Line
+            key={`arista-${idx}`}
+            points={[[source.x, source.y, source.z], [target.x, target.y, target.z]]}
+            color="#3f3f46" // Gris oscuro
+            lineWidth={1}
+            transparent
+            opacity={0.3}
+          />
+        );
+      })}
+
+      {/* Dibujar Nodos */}
+      {datosGrafo.nodos.map((nodo) => (
+        <Nodo key={nodo.id} nodo={nodo} />
+      ))}
+
+      {/* Controles: OrbitControls ya maneja el arrastre(rotar) y scroll(zoom) en desktop, 
+          y 1 dedo(rotar) / 2 dedos(zoom) en mobile según tu spec */}
+      <OrbitControls makeDefault enablePan={false} minDistance={10} maxDistance={100} />
+    </Canvas>
+  );
+}
+
+
+
+¿Qué más falta hacer?
+Importarlo dinámicamente: Recordá que en Next.js (si usás App Router) el componente padre que contenga <Grafo3D/> debe importarlo usando dynamic(() => import('./Grafo3D'), { ssr: false }) para que no intente ejecutar WebGL en el servidor y de error de "window is not defined".
+
+Ajustar Estilos de Contenedor: El div donde metas el <Grafo3D/> necesita tener alto y ancho definidos (ej. className="w-full h-[70vh]"), de lo contrario el Canvas colapsa y no se ve nada.
+
+El agrupamiento de +80 nodos: La spec dice "Con más de 80 nodos, se agrupa por compañía". Eso lo vas a agregar en generarGrafo.ts haciendo un if (personas.length > 80) y reduciendo el array antes de pasárselo a D3.

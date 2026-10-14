@@ -1,0 +1,52 @@
+Datos a reclutar
+
+Qué reclutar:
+Necesitas capturar: Nombre completo, Rol (ej. Engineer, Designer), Compañía, URL de LinkedIn y el Track o temática (ej. software, producto).
+
+Cómo hacerlo:
+Debes construir un formulario en el frontend (lo que llamas "la mesa" o Spec 05) que haga un POST /api/conexiones.
+La API REST (en Node.js, Python, o las API routes de Next.js) debe encargarse de:
+
+Validar: Confirmar que la URL de LinkedIn tenga un formato válido.
+
+Deduplicar: Buscar en la base de datos si esa URL de LinkedIn ya existe. Si existe, devolver un error HTTP 409 Conflict.
+
+Persistir: Guardar el registro en la base de datos asignándole un ID único (c_01), la fecha actual (creadoEn) y el flag interno publicarEnRed: true
+
+Para capturar los datos y que un usuario aparezca en la red de Tandil Tech Week, el proceso se divide en definir la entidad, armar el formulario visual y gestionar el envío al servidor.
+
+Los datos exactos a obtener del usuario (Inputs del formulario):
+
+nombre (Texto): Nombre completo.
+
+rol (Texto): Su puesto o a qué se dedica (ej. "Ingeniero de Software", "Diseñadora").
+
+compania (Texto): Empresa, universidad o proyecto actual.
+
+linkedinUrl (URL): Link directo a su perfil. Este es el dato más crítico porque funcionará como llave principal y destino del nodo 3D.
+
+track (Selección): Temática principal que determinará el color de su nodo (ej. software, design, marketing).
+
+(El backend generará y asignará automáticamente el id único, la marca de tiempo creadoEn y el flag publicarEnRed).
+
+Acá tenés el paso a paso de la implementación en React/Next.js:
+
+
+Contrato de datos:
+Para capturar los datos y que un usuario aparezca en la red de Tandil Tech Week, el proceso se divide en definir la entidad, armar el formulario visual y gestionar el envío al servidor.
+
+Los datos exactos a obtener del usuario (Inputs del formulario):
+
+nombre (Texto): Nombre completo.
+
+rol (Texto): Su puesto o a qué se dedica (ej. "Ingeniero de Software", "Diseñadora").
+
+compania (Texto): Empresa, universidad o proyecto actual.
+
+linkedinUrl (URL): Link directo a su perfil. Este es el dato más crítico porque funcionará como llave principal y destino del nodo 3D.
+
+track (Selección): Temática principal que determinará el color de su nodo (ej. software, design, marketing).
+
+(El backend generará y asignará automáticamente el id único, la marca de tiempo creadoEn y el flag publicarEnRed).
+
+Acá tenés el paso a paso de la implementación en React/Next.js:

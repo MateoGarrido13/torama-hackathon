@@ -24,3 +24,8 @@ Funcionalidades/secciones:
 * Inscripciones: apertura 17 sep 2026 19:00 (GMT-3) + countdown (días/horas/min/seg) + CTA a redes
 * Footer: Instagram y X (@tandiltechweek), fecha y lugar (Tandil)
 
+## Red de conexiones 
+
+
+## SPEAKERS 
+

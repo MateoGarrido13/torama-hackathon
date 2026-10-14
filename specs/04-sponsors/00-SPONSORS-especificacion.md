@@ -2,36 +2,42 @@
 
 ## Problema
 
-Acompañan está como lista estática. Los sponsors tienen que deslizarse y cada logo tiene que llevar a su sitio.
+La sección de "Acompañan" está como una lista estática. Los sponsors tienen que deslizarse de forma continua y cada logo tiene que enlazar al sitio oficial de la marca.
 
 ## Resultado
 
-Una cinta continua en `#acompanan` con los logos de quienes acompañan. Activar un logo abre la página de esa marca.
+Una cinta continua (marquee) en #acompanan con los logos de quienes acompañan. Activar un logo abre la página de esa marca en una pestaña nueva de forma segura.
 
 ## Alcance
 
-- Marquee infinito, de derecha a izquierda, en loop.
-- Pausa al hover y al foco de teclado.
-- Un link por sponsor.
-- Datos y logos en el repo.
+Marquee infinito, de derecha a izquierda, en loop.
+Pausa de la animación al hacer hover (ratón) y al recibir foco (teclado)
+Un link por sponsor.
+Datos y logos alojados en el repositorio.
 
 ## Fuera de alcance
 
-- Carrusel con flechas y dots. El gesto es la cinta, no un slider paginado.
-- Sponsors que se cargan por el formulario de la mesa.
-- Mover a “Organizan” a esta cinta. Organizan sigue en cards con categoría, descripción y link.
+Carrusel interactivo con flechas y dots. El gesto es la cinta automática, no un slider paginado manualmente.
+Sponsors que se cargan dinámicamente por API externa (se usa la fuente de verdad del repo).
+Mover a “Organizan” a esta cinta. Organizan sigue en cards con categoría, descripción y link.
 
 ## Historia
 
-Como visitante, quiero ver las marcas que acompañan y entrar a su sitio desde el logo.
+Como visitante, quiero ver de un vistazo las marcas que acompañan al evento y poder entrar a su sitio al hacer click en su logo.
 
 ## Comportamiento
 
-1. La cinta duplica la secuencia de logos para que el loop no tenga corte.
-2. La animación dura lo suficiente para leer cada marca (base: 28 segundos por vuelta completa de la lista original).
-3. Hover sobre la cinta, o foco dentro de un logo, pausa el movimiento. Al salir, sigue desde donde quedó.
-4. Activar un logo abre `url` en pestaña nueva.
-5. Con `prefers-reduced-motion: reduce`, la cinta está quieta y los logos wrappean en una grilla de varias filas. Los links siguen igual.
+La cinta duplica la secuencia de logos para que el loop no tenga corte. Importante: La duplicación debe ser suficiente para cubrir pantallas ultrawide (ej. monitores 4K) sin dejar huecos con solo 3 sponsors.
+
+Accesibilidad en clones: Para evitar atrapar la navegación por teclado, solo la lista original debe ser focuseable. Los nodos HTML clonados para el efecto visual deben tener obligatoriamente aria-hidden="true" y tabindex="-1".
+
+La animación dura lo suficiente para leer cada marca (velocidad base: ~28 segundos por vuelta completa, ajustable según el ancho total).
+
+Hover sobre la cinta, o foco (:focus-within) dentro de un logo, pausa la animación para permitir hacer click con comodidad. Al salir, retoma el movimiento suavemente.
+
+Activar un logo abre la url en pestaña nueva. Requiere target="_blank" y rel="noopener noreferrer".
+
+Con prefers-reduced-motion: reduce, se desactiva la animación por completo. La cinta se convierte en una grilla estática (flex-wrap: wrap o grid) de varias filas centradas. Los links siguen funcionales.
 
 ## Datos
 
@@ -75,5 +81,6 @@ Ninguna. El marquee de tracks del hero es otro componente: misma idea visual, ot
 
 ## Casos borde
 
-- Un solo sponsor: se muestra quieto, centrado, sin duplicar la pieza para simular movimiento.
-- Logo muy ancho: se escala a la altura fija sin deformar.
+Un solo sponsor: Se desactiva la animación de marquee. El logo se muestra quieto y centrado horizontalmente. No se clonan nodos.
+
+Logo muy ancho: Se escala proporcionalmente a la altura fija de la fila, sin deformarse (object-fit: contain).

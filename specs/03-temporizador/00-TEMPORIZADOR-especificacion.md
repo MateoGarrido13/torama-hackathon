@@ -2,29 +2,39 @@
 
 ## Problema
 
-El hero dice 14 y 15 oct, pero no dice cuánto falta para la próxima jornada. El countdown de `#inscripciones` mide otra cosa: la apertura del 17 sep 2026 19:00.
+El hero indica las fechas generales (14 y 15 oct), pero no comunica visualmente cuánto falta para la próxima jornada ni genera impacto inmersivo.
 
 ## Resultado
 
-Un temporizador en el hero que cuenta hacia la próxima jornada y cambia de etiqueta cuando esa jornada empieza.
+Un temporizador dinámico en el hero que cuenta el tiempo restante hacia la próxima jornada, cambia de etiqueta según la fase del evento y presenta un video de fondo en bucle (loop) para mayor dinamismo visual que se encuentra en el repositorio (/torama-hackathon/tandil_tech_week/Tandil Tech Week el 14 y 15 de octubre. Inscripciones abiertas en tandiltechweek.com ⚡️.mp4).
 
 ## Alcance
 
-- Reloj días / horas / minutos / segundos.
-- Máquina de estados según la fecha actual.
-- Fuente de verdad: `content/evento.ts`.
-- El countdown de inscripciones queda como está y no se reutiliza este componente para mezclar los dos mensajes.
+Reloj formato: días / horas / minutos / segundos.
+Máquina de estados estricta según la fecha actual.
+Fuente de verdad de fechas: content/evento.ts.
+Video de fondo alojado localmente (servido desde la carpeta public/).
+El countdown de inscripciones (#inscripciones) queda inalterado y aislado de este componente.
 
 ## Fuera de alcance
 
-- Cuenta regresiva por charla del cronograma.
-- Notificaciones push.
-- Sincronizar con un servidor de tiempo más allá del reloj del dispositivo. El primer paint puede hidratarse con la hora del servidor para evitar un salto.
+Cuenta regresiva por charla individual del cronograma.
+Notificaciones push.
+Sincronización NTP (Network Time Protocol) con el servidor. El cliente asume la hora del dispositivo tras la hidratación inicial.
+Streaming del video (el video es un asset estático descargado e incluido en el repositorio).
 
 ## Historia
 
-Como visitante, quiero ver cuánto falta para la próxima jornada, para saber si el evento es ahora o todavía no.
+Como visitante, quiero ver cuánto falta para la próxima jornada sobre un fondo visualmente atractivo, para saber si el evento es ahora o todavía no, y sentir el clima del evento.
 
+Nota para el agente: El componente debe consumir las fechas bajo una estructura similar a esta, garantizando que el offset -03:00 (ART) esté presente.
+export const evento = {
+  hackingDay: { inicio: "2026-10-14T09:00:00-03:00" },
+  startupDay: { 
+    inicio: "2026-10-15T09:00:00-03:00",
+    fin: "2026-10-15T19:00:00-03:00" 
+  }
+};
 ## Estados
 
 | Ahora | Etiqueta | Destino |
@@ -38,23 +48,49 @@ Durante Hacking Day el temporizador apunta a Startup Day, que es el próximo eve
 
 ## Comportamiento
 
-1. El servidor calcula el estado con la hora de la request y manda etiqueta + `targetIso`.
-2. El cliente, montado, recalcula cada 1 segundo.
-3. Formato: dos dígitos por unidad. Días pueden pasar de 99.
-4. Al cruzar un hito, cambia la etiqueta en el mismo segundo, sin recargar.
-5. El badge “Coming Soon” del hero se oculta cuando el estado pasa a “está en curso” o “nos vemos en la próxima edición”.
+Cálculo Inicial: El servidor calcula el estado con la hora de la request y manda la etiqueta + targetIso.
+
+Tick del Cliente: El cliente, una vez montado, recalcula la diferencia cada 1000ms.
+
+Formato: Dos dígitos obligatorios por unidad (ej. 05 min, 09 seg). Los días pueden superar los 99 sin romperse.
+
+Transición sin recarga: Al cruzar el timestamp de un hito, la etiqueta cambia en ese mismo segundo en el cliente.
+
+Comportamiento del Hero: El badge “Coming Soon” (si existe en el hero) se oculta automáticamente cuando el estado es “está en curso” o “nos vemos en la próxima edición”.
+
+Video de Fondo: Se reproduce automáticamente sin sonido (autoplay muted loop playsinline) detrás del temporizador.
 
 ## UI
 
-- Ubicado bajo el claim del hero, arriba del marquee de tracks.
-- Cuatro celdas: Días, Horas, Min, Seg. En mobile las cuatro entran en una fila.
-- En los estados sin dígitos, las celdas no se renderizan.
+Ubicación: Bajo el claim del hero, arriba del marquee de tracks.
+
+Grilla del Reloj: Cuatro celdas (Días, Horas, Min, Seg). En mobile, las cuatro celdas se agrupan en una sola fila (usar flex/grid responsivo).
+
+Video de fondo:
+
+Capa absoluta (position: absolute; z-index: -1; inset: 0;).
+
+Ajuste de tamaño object-fit: cover.
+
+Debe tener un overlay oscuro o gradiente (ej. bg-black/50) para garantizar el contraste y la legibilidad de los números blancos/claros del reloj.
+
+Accesibilidad: Los números que cambian cada segundo deben tener aria-hidden="true" para no saturar lectores de pantalla, y proveer un texto alternativo oculto (ej. <span class="sr-only">Faltan 2 días y 4 horas para...</span>) que se actualice con menos frecuencia (ej. solo minutos).
 
 ## Técnico
 
-- Componente cliente `TemporizadorEvento`.
-- `targetIso` siempre con offset `-03:00`. No usar la zona del browser para decidir el hito.
-- `suppressHydrationWarning` en los dígitos, porque el segundo puede diferir entre server y client.
+Componente: Client Component TemporizadorEvento (si es Next.js/React, usar "use client").
+
+Manejo de Tiempos: targetIso siempre opera con el offset -03:00. Parsarlo como UTC/Epoch para comparaciones matemáticas matemáticas. No depender de la zona horaria del browser del usuario para la máquina de estados.
+
+Hidratación: Usar suppressHydrationWarning en el nodo de los dígitos de segundos, ya que el milisegundo exacto diferirá entre el render de servidor y la hidratación del cliente.
+
+Performance de Video:
+
+Etiqueta HTML obligatoria: <video src="/assets/videos/hero-bg.mp4" autoplay loop muted playsinline disablePictureInPicture />.
+
+El atributo playsinline es crítico para que no abra pantalla completa en iOS.
+
+Usar un atributo poster="/assets/images/hero-bg-poster.jpg" para el primer paint mientras carga el video.
 
 ## Criterios de aceptación
 

@@ -1,0 +1,13 @@
+| Sección | Ancla | Qué muestra |
+| --- | --- | --- |
+| Nav | — | Agenda, Speakers, Organizan, Acompañan, Cronograma |
+| Hero | — | 14 y 15 oct, título, claim, marquee de tracks, badge Coming Soon |
+| Jornadas | `#agenda` | Hacking Day (14 oct, campus UNICEN) y Startup Day (15 oct, Distrito Avellaneda) |
+| Speakers | `#speakers` | Spec 02. Seis personas confirmadas, fotos en `public/speakers/` |
+| Organizan | `#organizan` | Picante, Relaw, Paisanos, HackTandil, Geonosis, Fardo |
+| Acompañan | `#acompanan` | Spec 04 |
+| Inscripciones | `#inscripciones` | Apertura 17 sep 2026 19:00 (GMT-3), countdown de apertura, CTA a redes |
+| Red | `#red` | Spec 01 |
+| Mesa | `#mesa` | Spec 05 |
+| Streaming | `#en-vivo` | Spec 07 |
+| Footer | — | Instagram y X `@tandiltechweek`, fecha y lugar (Tandil) |

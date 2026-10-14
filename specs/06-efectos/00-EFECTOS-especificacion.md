@@ -6,7 +6,7 @@ La página tiene que sentirse como un recorrido hacia abajo, con una capa de son
 
 ## Resultado
 
-Un ambiente sonoro que la persona enciende, y transiciones verticales al bajar por las secciones. El scroll sigue siendo el nativo del browser.
+Un ambiente sonoro que la persona enciende, y transiciones verticales al bajar por las secciones. El scroll sigue siendo el nativo del browser. El front es React Three Fiber, hosteado en Vercel: el revelado de secciones es de la página y la inclinación de cámara es la de la red.
 
 ## Alcance
 

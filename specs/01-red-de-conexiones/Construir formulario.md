@@ -1,0 +1,65 @@
+# Construir formulario
+
+```tsx
+// components/FormularioMesa.tsx
+'use client';
+
+import { useState, FormEvent } from 'react';
+
+export default function FormularioMesa() {
+  const [estado, setEstado] = useState<'idle' | 'cargando' | 'exito' | 'error'>('idle');
+
+  // El Paso 3 (manejarEnvio) irá acá adentro
+
+  return (
+    <form onSubmit={manejarEnvio} className="max-w-md mx-auto p-6 bg-neutral-900 text-white rounded-lg">
+      <h2 className="text-2xl font-bold mb-4">Sumate a la red</h2>
+
+      <div className="flex flex-col gap-4">
+        <input
+          name="nombre"
+          placeholder="Nombre completo"
+          required
+          className="p-2 bg-neutral-800 rounded border border-neutral-700"
+        />
+        <input
+          name="rol"
+          placeholder="Rol (Ej: Backend Dev)"
+          required
+          className="p-2 bg-neutral-800 rounded border border-neutral-700"
+        />
+        <input
+          name="compania"
+          placeholder="Compañía o Proyecto"
+          required
+          className="p-2 bg-neutral-800 rounded border border-neutral-700"
+        />
+        <input
+          name="linkedinUrl"
+          type="url"
+          placeholder="URL de LinkedIn"
+          required
+          className="p-2 bg-neutral-800 rounded border border-neutral-700"
+        />
+        <select name="track" required className="p-2 bg-neutral-800 rounded border border-neutral-700">
+          <option value="software">Software Engineering</option>
+          <option value="design">Design</option>
+          <option value="marketing">Marketing</option>
+          <option value="producto">Product</option>
+          <option value="default">Otro</option>
+        </select>
+
+        <button
+          type="submit"
+          disabled={estado === 'cargando'}
+          className="bg-blue-600 p-2 rounded font-bold mt-2 hover:bg-blue-500 disabled:opacity-50"
+        >
+          {estado === 'cargando' ? 'Enviando...' : 'Aparecer en la red'}
+        </button>
+
+        {estado === 'exito' && <p className="text-green-400 text-sm">¡Listo! En unos segundos aparecerás en el grafo.</p>}
+      </div>
+    </form>
+  );
+}
+```

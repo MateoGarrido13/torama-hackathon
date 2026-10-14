@@ -6,12 +6,11 @@
 6. Efectros de musica, efectos de bajar en vertical , 
 7. Streaming en vivo 
 
-FRAMEWORKS :
-` RTF(React Three Fiber)`:, Modelos 3d, CSR
-Vercel 
+## Tecnologías
 
-
- `Next.js:`  
+- Front: React Three Fiber, en cliente. Anima la red de conexiones y dibuja el front.
+- Hosting: Vercel.
+- App: Next.js (App Router), que es lo que Vercel despliega.
 
 Funcionalidades/secciones:
 

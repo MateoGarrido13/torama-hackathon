@@ -10,7 +10,7 @@ Una sección `#red` con un grafo 3D. Cada envío publicado de la mesa (spec 05) 
 
 ## Alcance
 
-- Grafo en React Three Fiber, renderizado solo en cliente.
+- Grafo en React Three Fiber, el mismo front de la página, renderizado solo en cliente. El sitio se despliega en Vercel.
 - Un nodo por `PersonaPublica`.
 - Aristas entre nodos que comparten `compania` o `track`. Si un nodo no comparte nada, queda suelto y unido al nodo central del evento.
 - Click y tap abren `linkedinUrl`.
@@ -67,7 +67,7 @@ Respuesta:
 }
 ```
 
-Seed de desarrollo: 8 personas ficticias en `content/conexiones.seed.ts` para que la escena no nazca vacía en local. En producción el seed no se mezcla con envíos reales.
+Seed de desarrollo: 5 personas ficticias en `content/conexiones.seed.ts` para que la escena no nazca vacía en local. En producción el seed no se mezcla con envíos reales.
 
 ## UI
 

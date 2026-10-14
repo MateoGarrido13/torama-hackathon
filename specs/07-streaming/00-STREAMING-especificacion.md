@@ -1,12 +1,13 @@
 # Especificación Técnica: 07 — Streaming en Vivo (#en-vivo)
-> **Rol para el LLM ejecutor:** Eres un desarrollador frontend senior en Next.js y TypeScript. Tu tarea es implementar el componente y la lógica de la sección `#en-vivo` de la plataforma **Tandil Tech Week** siguiendo estrictamente las especificaciones, datos y restricciones técnicas detalladas en este documento.
+> **Rol para el LLM ejecutor:** Eres un desarrollador frontend senior. El front del sitio es React Three Fiber y el hosting es Vercel. Tu tarea es implementar el componente y la lógica de la sección `#en-vivo` de la plataforma **Tandil Tech Week** siguiendo estrictamente las especificaciones, datos y restricciones técnicas detalladas en este documento. Esta sección es HTML: el iframe no va dentro de la escena 3D.
 
 ---
 
 ## 1. Contexto del Proyecto y Stack
 
-* **Framework:** Next.js (App Router) con TypeScript y Tailwind CSS.
-* **Deploy:** Vercel.
+* **Front:** React Three Fiber, en cliente. Esta sección no es una malla de esa escena.
+* **Hosting:** Vercel.
+* **App:** Next.js (App Router) con TypeScript y Tailwind CSS. Es el proyecto que Vercel despliega.
 * **Zona Horaria del Evento:** `America/Argentina/Buenos_Aires` (GMT-3). Todas las evaluaciones temporales deben calcularse contra este huso horario.
 * **Ubicación en el sitio:** Sección con identificador y ancla `id="en-vivo"`, precedida por las secciones anteriores del sitio y seguida por el Footer.
 * **Integración en Navbar:** El menú de navegación debe incluir de forma fija y permanente el ítem *"En vivo"* apuntando con scroll suave a `#en-vivo`.
@@ -130,7 +131,7 @@ El estado no se determina únicamente por la hora ni únicamente por la presenci
 
 ---
 
-## 5. Requerimientos Técnicos para Next.js (App Router)
+## 5. Requerimientos técnicos del cliente
 
 1. **Client Component:** El componente raíz (`StreamingSection.tsx`) debe incluir la directiva `'use client'` al inicio del archivo, ya que maneja reloj dinámico (`setInterval`), ciclo de vida de componentes (`useEffect`) y eventos del DOM (`window.dispatchEvent`).
 2. **Prevención de Hydration Mismatch:**

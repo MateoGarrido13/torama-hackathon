@@ -78,7 +78,7 @@ Accesibilidad: Los números que cambian cada segundo deben tener aria-hidden="tr
 
 ## Técnico
 
-Componente: Client Component TemporizadorEvento (si es Next.js/React, usar "use client").
+Componente: Client Component `TemporizadorEvento`, con `"use client"`. Vive en el HTML del front (React Three Fiber en Vercel), no dentro del canvas de la red.
 
 Manejo de Tiempos: targetIso siempre opera con el offset -03:00. Parsarlo como UTC/Epoch para comparaciones matemáticas matemáticas. No depender de la zona horaria del browser del usuario para la máquina de estados.
 

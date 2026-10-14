@@ -76,6 +76,8 @@ Tabla `conexiones`:
 
 Implementación prevista: Postgres accesible desde Vercel (`POSTGRES_URL`). En local, sin esa variable, los POST se guardan en memoria del proceso y el seed de la spec 01 se muestra en los GET. Ese modo es solo para desarrollar la UI.
 
+La página se despliega en Vercel y el front es React Three Fiber. El formulario y las tarjetas son HTML de esa página, no mallas de la escena.
+
 ## UI
 
 - Ancla `#mesa`.

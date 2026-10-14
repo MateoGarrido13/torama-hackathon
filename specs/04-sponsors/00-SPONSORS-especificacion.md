@@ -6,7 +6,7 @@ La sección de "Acompañan" está como una lista estática. Los sponsors tienen 
 
 ## Resultado
 
-Una cinta continua (marquee) en #acompanan con los logos de quienes acompañan. Activar un logo abre la página de esa marca en una pestaña nueva de forma segura.
+Una cinta continua (marquee) en #acompanan con los logos de quienes acompañan. Activar un logo abre la página de esa marca en una pestaña nueva de forma segura. La cinta es HTML del front (React Three Fiber, hosting en Vercel), no una malla de la escena.
 
 ## Alcance
 

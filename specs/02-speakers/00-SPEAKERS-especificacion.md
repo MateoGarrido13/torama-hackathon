@@ -11,7 +11,7 @@ Fila de cards de los seis speakers confirmados. Cada card es la foto, con el nom
 ## Alcance
 
 - Datos en `content/speakers.ts`.
-- Foto servida desde `/public/speakers/`, usada con `next/image`.
+- Foto servida desde `/public/speakers/`, usada con `next/image` en la card HTML. No es textura del canvas.
 - Card: la foto ocupa la card y el nombre y el apellido van en negrita sobre la imagen.
 - La fila se desplaza sola hacia la izquierda, en bucle.
 - Rol, charla (si hay) y link a LinkedIn cuando el dato está cargado.

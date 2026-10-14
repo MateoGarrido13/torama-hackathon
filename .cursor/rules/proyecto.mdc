@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Tandil Tech Week
 
-Sitio del evento (14 y 15 oct 2026). Next.js (App Router) en Vercel, React Three Fiber solo en cliente, Tailwind CSS, contenido editorial en `content/`, zona `America/Argentina/Buenos_Aires`.
+Sitio del evento (14 y 15 oct 2026). Front en React Three Fiber, solo en cliente: la página y la animación de la red. Hosting en Vercel. App Next.js (App Router), Tailwind CSS, contenido en `content/`, zona `America/Argentina/Buenos_Aires`. Links, formularios e iframes van en HTML, no dentro de la escena.
 
 ## Cómo trabajar
 

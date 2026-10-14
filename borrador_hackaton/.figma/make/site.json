@@ -1,0 +1,10 @@
+{
+  "description": "Streamline your design process with this tool that organizes UI components based on Atomic Design principles, enhancing collaboration and efficiency for teams.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

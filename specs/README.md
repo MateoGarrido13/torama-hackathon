@@ -1,6 +1,6 @@
 # Specs — features 1 a 7
 
-Especificación de las ideas en `lista_ideas.md`. El contexto común está en [00-contexto.md](./00-contexto.md).
+Especificación de las ideas en `lista_ideas.md`. El contexto común está en [00-contexto.md](./00-contexto.md). El front es React Three Fiber (la página y la animación de la red). El hosting es Vercel.
 
 | # | Feature | Spec |
 | --- | --- | --- |

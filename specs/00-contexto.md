@@ -21,7 +21,7 @@ Estas specs cubren las features 1 a 7 de `lista_ideas.md`. El resto del sitio ya
 | Nav | — | Agenda, Speakers, Organizan, Acompañan, Cronograma |
 | Hero | — | 14 y 15 oct, título, claim, marquee de tracks, badge Coming Soon |
 | Jornadas | `#agenda` | Hacking Day (14 oct, campus UNICEN) y Startup Day (15 oct, Distrito Avellaneda) |
-| Speakers | `#speakers` | Spec 02 |
+| Speakers | `#speakers` | Spec 02. Seis personas confirmadas, fotos en `public/speakers/` |
 | Organizan | `#organizan` | Picante, Relaw, Paisanos, HackTandil, Geonosis, Fardo |
 | Acompañan | `#acompanan` | Spec 04 |
 | Inscripciones | `#inscripciones` | Apertura 17 sep 2026 19:00 (GMT-3), countdown de apertura, CTA a redes |
@@ -68,6 +68,21 @@ type PersonaPublica = {
 ```
 
 `PersonaPublica` es lo único que la red y la mesa pueden mostrar. El email no sale de este tipo.
+
+## Speakers confirmados
+
+Cada foto está en `public/speakers/` como `nombre_apellido.png` y se sirve en `/speakers/<archivo>`. El nombre para mostrar sale de ese archivo. Este es el orden de la grilla:
+
+| id | Nombre | Foto |
+| --- | --- | --- |
+| `belen-gonzalez` | Belén González | `/speakers/belen_gonzalez.png` |
+| `federico-ades` | Federico Ades | `/speakers/federico_ades.png` |
+| `juan-caballero` | Juan Caballero | `/speakers/juan_caballero.png` |
+| `nicolas-bayerque` | Nicolás Bayerque | `/speakers/nicolas_bayerque.png` |
+| `nicolas-seguro` | Nicolás Seguro | `/speakers/nicolas_seguro.png` |
+| `renzo-battaglia` | Renzo Battaglia | `/speakers/renzo_battaglia.png` |
+
+Rol, charla y URL de LinkedIn no están en los archivos. No se inventan: la spec 02 dice cómo se ve la card mientras falten.
 
 ## Reglas transversales
 

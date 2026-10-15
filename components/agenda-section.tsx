@@ -19,13 +19,20 @@ export function AgendaSection() {
             desde Tandil hacia el mundo.
           </p>
           <div className="agenda-list">
-            {jornadas.map((jornada) => (
-              <div key={jornada.id} className="agenda-row">
-                <span>{formatDay(jornada.inicio).toUpperCase()}</span>
-                <strong>{jornada.nombre}</strong>
-                <small>{jornada.sede}</small>
-              </div>
-            ))}
+            {jornadas.map((jornada) => {
+              const occurred = jornada.id === "hacking-day";
+
+              return (
+                <div key={jornada.id} className={`agenda-row${occurred ? " agenda-row--past" : ""}`}>
+                  <span>{formatDay(jornada.inicio).toUpperCase()}</span>
+                  <strong>
+                    {jornada.nombre}
+                    {occurred ? <span className="agenda-row__status">Ya ocurrió</span> : null}
+                  </strong>
+                  <small>{jornada.sede}</small>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

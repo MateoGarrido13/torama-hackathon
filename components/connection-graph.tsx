@@ -358,7 +358,7 @@ export function ConnectionGraph({
   const [focusedId, setFocusedId] = useState<string | null>(null);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="network-canvas">
       <Canvas
         camera={{ position: [0, 5, 34], fov: 50 }}
         dpr={[1, 1.5]}

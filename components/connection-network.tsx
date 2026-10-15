@@ -1,6 +1,6 @@
 "use client";
 
-import { Component, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Component, useEffect, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import type { PersonaPublica } from "@/content/types";
 import { ExternalLink } from "@/components/external-link";
@@ -122,6 +122,39 @@ function ConnectionGrid({ people }: { people: PersonaPublica[] }) {
 
 const sceneClass = "network-scene";
 
+function ConnectionDraftForm() {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  return (
+    <form className="network-draft" onSubmit={handleSubmit} aria-label="Cargar una persona">
+      <label className="field">
+        <span>Nombre</span>
+        <input name="firstName" autoComplete="given-name" required />
+      </label>
+      <label className="field">
+        <span>Apellido</span>
+        <input name="lastName" autoComplete="family-name" required />
+      </label>
+      <label className="field">
+        <span>LinkedIn</span>
+        <input
+          name="linkedinUrl"
+          type="url"
+          inputMode="url"
+          autoComplete="url"
+          placeholder="https://linkedin.com/in/tu-perfil"
+          required
+        />
+      </label>
+      <button className="button button--primary" type="button">
+        Sumar a la red
+      </button>
+    </form>
+  );
+}
+
 export function RedConexiones() {
   const sectionRef = useRef<HTMLElement>(null);
   const [people, setPeople] = useState<PersonaPublica[] | null>(null);
@@ -184,7 +217,7 @@ export function RedConexiones() {
       aria-labelledby="red-titulo"
       className="network-section"
     >
-      <div>
+      <div className="network-copy">
         <h2 id="red-titulo">Red de conexiones</h2>
         <p className="section-lead">Cada persona que se sienta a la mesa aparece acá.</p>
         {people ? (
@@ -199,7 +232,9 @@ export function RedConexiones() {
             {warning}
           </p>
         ) : null}
-        <div className={people && webgl === false ? "section-stack" : "network-bleed section-stack"}>
+      </div>
+      <div className="network-stage">
+        <div className="network-graph">
           {people === null || webgl === null ? <div className={sceneClass} /> : null}
           {people && webgl === false ? grid : null}
           {people && webgl ? (
@@ -210,6 +245,7 @@ export function RedConexiones() {
             </WebGLBoundary>
           ) : null}
         </div>
+        <ConnectionDraftForm />
       </div>
     </section>
   );

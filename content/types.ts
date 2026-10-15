@@ -18,6 +18,16 @@ export type PersonaPublica = {
   creadoEn: string;
 };
 
+export type TarjetaMesa = {
+  id: string;
+  compania: string;
+  nombre: string;
+  rol: string;
+  linkedinUrl: string;
+  track: string;
+  mensaje: string | null;
+};
+
 export type Speaker = {
   id: string;
   nombre: string;

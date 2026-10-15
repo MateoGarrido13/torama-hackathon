@@ -23,14 +23,11 @@ export const navItems: NavItem[] = [
   { href: "#acompanan", label: "Acompañan" },
 ];
 
-/** 09:00 ART mientras la hora de inicio de cada jornada no esté confirmada. */
-const defaultStart = "T09:00:00-03:00";
-
 export const jornadas: Jornada[] = [
   {
     id: "hacking-day",
     nombre: "Hacking Day",
-    inicio: `2026-10-14${defaultStart}`,
+    inicio: "2026-10-14T09:00:00-03:00",
     fin: "2026-10-15T00:00:00-03:00",
     sede: "Campus UNICEN",
     track: "",
@@ -39,7 +36,7 @@ export const jornadas: Jornada[] = [
   {
     id: "startup-day",
     nombre: "Startup Day",
-    inicio: `2026-10-15${defaultStart}`,
+    inicio: "2026-10-15T17:00:00-03:00",
     fin: "2026-10-16T00:00:00-03:00",
     sede: "Distrito Avellaneda",
     track: "",

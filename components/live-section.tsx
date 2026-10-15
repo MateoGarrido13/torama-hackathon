@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/icon";
+import { jornadas } from "@/content/evento";
 
-/** 2 horas desde las 18:53 ART del 14 oct 2026. */
-const target = new Date("2026-10-14T20:53:00-03:00").getTime();
+const nextEvent = jornadas.find((jornada) => jornada.id === "startup-day") ?? jornadas[jornadas.length - 1];
+const target = new Date(nextEvent?.inicio ?? "2026-10-15T17:00:00-03:00").getTime();
 
 function cells(remainingMs: number) {
   const seconds = Math.floor(remainingMs / 1000);
@@ -51,13 +52,19 @@ export function LiveSection() {
             <Icon name="play" />
           </button>
         </div>
-        <div className="countdown" aria-label="Cuenta regresiva para el evento">
-          {values.map((unit) => (
-            <div className="count-cell" key={unit.id}>
-              <strong>{unit.value}</strong>
-              <span>{unit.label}</span>
-            </div>
-          ))}
+        <div>
+          <p className="countdown-target">
+            <strong>{nextEvent?.nombre}</strong>
+            <span>{nextEvent?.sede}</span>
+          </p>
+          <div className="countdown" aria-label={`Cuenta regresiva para ${nextEvent?.nombre} en ${nextEvent?.sede}`}>
+            {values.map((unit) => (
+              <div className="count-cell" key={unit.id}>
+                <strong suppressHydrationWarning={unit.id === "seconds"}>{unit.value}</strong>
+                <span>{unit.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

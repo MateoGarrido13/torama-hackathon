@@ -16,3 +16,9 @@ export function nodeColorForTrack(track?: string) {
   if (!track) return neutralNodeColor;
   return trackColors[track] ?? neutralNodeColor;
 }
+
+/** Opciones del formulario. Si `tracks` está vacío, usa los ids que ya tienen color de nodo. */
+export function formTracks(): Track[] {
+  if (tracks.length > 0) return tracks;
+  return Object.keys(trackColors).map((id) => ({ id, nombre: id }));
+}

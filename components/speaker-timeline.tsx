@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { formatTalkTime, mockedNow, talkPhase, talkStartMs } from "@/lib/speaker-timeline";
+import { formatTalkTime, MOCK_EVENT_MS, mockedNow, talkPhase, talkStartMs } from "@/lib/speaker-timeline";
 
 export type TimelineSpeaker = {
   id: string;
@@ -13,7 +13,7 @@ export type TimelineSpeaker = {
 };
 
 export function SpeakerTimeline({ speakers }: { speakers: TimelineSpeaker[] }) {
-  const [now, setNow] = useState(() => mockedNow());
+  const [now, setNow] = useState(MOCK_EVENT_MS);
   const [revealed, setRevealed] = useState<ReadonlySet<string>>(() => new Set());
 
   useEffect(() => {

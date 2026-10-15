@@ -52,29 +52,9 @@ Como alguien de una compañía de software del evento, quiero dejar nuestros dat
 6. 409: “Ese LinkedIn ya está en la mesa.” No se duplica.
 7. 500 o red caída: “No pudimos guardar. Intentá de nuevo.” Los campos siguen llenos.
 
-## Persistencia
+`GET /api/conexiones` devuelve solo quienes tienen publicar en la red, como `PersonaPublica`.
 
-Tabla `conexiones`:
-
-| Columna | Tipo | Nota |
-| --- | --- | --- |
-| id | text pk | `c_` + ulid |
-| compania | text | |
-| nombre | text | |
-| rol | text | |
-| email | text | único junto con linkedin, nunca en el GET público |
-| linkedin_url | text unique | |
-| sitio | text null | |
-| track | text | |
-| mensaje | text null | |
-| publicar_en_red | boolean | |
-| creado_en | timestamptz | |
-
-`GET /api/conexiones` devuelve solo filas con `publicar_en_red = true`, proyectadas a `PersonaPublica`.
-
-`GET /api/mesa` devuelve todas las filas para las tarjetas, sin email: compañía, nombre, rol, linkedin, track, mensaje.
-
-Implementación prevista: Postgres accesible desde Vercel (`POSTGRES_URL`). En local, sin esa variable, los POST se guardan en memoria del proceso y el seed de la spec 01 se muestra en los GET. Ese modo es solo para desarrollar la UI.
+`GET /api/mesa` devuelve las tarjetas, sin email: compañía, nombre, rol, linkedin, track, mensaje.
 
 La página se despliega en Vercel y el front es React Three Fiber. El formulario y las tarjetas son HTML de esa página, no mallas de la escena.
 
@@ -89,11 +69,11 @@ La página se despliega en Vercel y el front es React Three Fiber. El formulario
 
 ## Criterios de aceptación
 
-1. Un POST válido con publicar en red crea fila, tarjeta y nodo.
+1. Un POST válido con publicar en red crea la tarjeta y el nodo.
 2. Un POST válido sin publicar crea tarjeta y no crea nodo.
 3. El email del JSON público de `/api/conexiones` y de `/api/mesa` no aparece.
 4. La misma `linkedin_url` por segunda vez devuelve 409 y la mesa queda igual.
-5. El honeypot con texto no crea fila y la UI igual muestra la confirmación.
+5. El honeypot con texto no agrega a nadie y la UI igual muestra la confirmación.
 6. LinkedIn que no matchea el patrón no se puede enviar: el botón no dispara el POST.
 7. Recargar la página después de un 201 muestra la tarjeta nueva.
 

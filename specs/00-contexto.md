@@ -12,7 +12,6 @@ Estas specs cubren las features 1 a 7 de `lista_ideas.md`. El resto del sitio ya
 | Hosting | Vercel |
 | App | Next.js (App Router). Es el proyecto que Vercel despliega: rutas, `content/`, `public/` y el canvas. |
 | Contenido editorial | Archivos en `content/` versionados en el repo |
-| Envíos del formulario | Persistencia en el servidor (ver spec 05) |
 | Zona horaria | `America/Argentina/Buenos_Aires` (GMT-3) |
 
 El canvas no se importa en el servidor. La escena es el front animado y, en `#red`, el grafo. Nav, textos, speakers, sponsors, formulario y streaming quedan en HTML en la misma página: un link, un form y un iframe no van dentro de la escena.

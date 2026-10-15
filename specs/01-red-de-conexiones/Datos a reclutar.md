@@ -11,8 +11,8 @@ Hay que construir un formulario en el frontend (la mesa, spec 05) que haga un `P
 La API REST (en Node.js, Python, o las API routes de Next.js) debe encargarse de:
 
 - **Validar:** confirmar que la URL de LinkedIn tenga un formato válido.
-- **Deduplicar:** buscar en la base de datos si esa URL de LinkedIn ya existe. Si existe, devolver un error HTTP 409 Conflict.
-- **Persistir:** guardar el registro en la base de datos asignándole un ID único (`c_01`), la fecha actual (`creadoEn`) y el flag interno `publicarEnRed: true`.
+- **Deduplicar:** si esa URL de LinkedIn ya existe, devolver un error HTTP 409 Conflict.
+- **Registrar:** asignarle un ID único (`c_01`), la fecha actual (`creadoEn`) y el flag interno `publicarEnRed: true`.
 
 Para capturar los datos y que un usuario aparezca en la red de Tandil Tech Week, el proceso se divide en definir la entidad, armar el formulario visual y gestionar el envío al servidor.
 

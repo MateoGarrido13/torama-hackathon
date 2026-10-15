@@ -67,8 +67,6 @@ Respuesta:
 }
 ```
 
-Seed de desarrollo: 5 personas ficticias en `content/conexiones.seed.ts` para que la escena no nazca vacía en local. En producción el seed no se mezcla con envíos reales.
-
 ## UI
 
 - Título: “Red de conexiones”.
